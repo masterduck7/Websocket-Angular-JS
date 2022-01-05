@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
 @Injectable({
@@ -6,9 +8,16 @@ import { Socket } from 'ngx-socket-io';
 })
 export class WebSocketService extends Socket {
 
-  constructor() {
+  outEven: EventEmitter<any> = new EventEmitter();
+
+  constructor(private cookieService: CookieService) {
     super({
-      "url": ""
+      url: "http://localhost:3000",
+      options: {
+        query: {
+          roomId: cookieService.get("room_id")
+        }
+      }
     });
   }
 }
