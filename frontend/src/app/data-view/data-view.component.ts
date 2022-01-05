@@ -1,4 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import { WebSocketService } from '../web-socket.service';
 
 @Component({
   selector: 'app-data-view',
@@ -7,21 +9,22 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class DataViewComponent implements OnInit {
 
-  constructor() { }
+  messages=[];
+
+  constructor(protected socketService: WebSocketService,
+
+    private cookieService: CookieService) {
+      socketService.outEven.subscribe(res => {
+          console.log("outeven")
+      })
+    }
 
   ngOnInit(): void {
   }
 
   @HostListener("document:mousemove", ["$event"])
-  onMouseMove = (e: any, emit: false) => {
+  onMouseMove = (e: any) => {
     console.log(e)
-    if (emit) {
-      this.emit();
-    }
-  }
-
-  emit(){
-    
   }
 
 }
