@@ -15,7 +15,7 @@ export class WebSocketService extends Socket {
       url: "http://localhost:3000",
       options: {
         query: {
-          roomId: cookieService.get("room_id")
+          nameRoom: cookieService.get("room_id")
         }
       }
     });
