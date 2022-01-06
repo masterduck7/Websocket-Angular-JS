@@ -22,7 +22,7 @@ export class DataViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @HostListener("document:mousemove", ["$event"])
+  @HostListener("document:click", ["$event"])
   onMouseMove = (e: any) => {
     console.log(e)
   }
