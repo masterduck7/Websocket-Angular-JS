@@ -13,6 +13,12 @@ io.on('connection', (socket) => {
 
     console.log(`User ${idHandShake} -> ${nameRoom}`);
 
+    socket.on("event", res => {
+        console.log(res)
+
+        socket.to(nameRoom).emit("event", res)
+    })
+
     socket.on('disconnect', () => {
         console.log(`User ${socket.id} disconnected -> ${nameRoom}`);
     });

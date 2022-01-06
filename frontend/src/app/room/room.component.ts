@@ -12,13 +12,15 @@ export class RoomComponent implements OnInit {
   room_id!: string
   messages = []
 
-  constructor(private router: ActivatedRoute, protected socketService: WebSocketService,
+  constructor(private router: ActivatedRoute, protected socketService: WebSocketService, private cookieService: CookieService) {
+    socketService.outEven.subscribe(res => {
+      console.log("outeven")
+    })
 
-    private cookieService: CookieService) {
-      socketService.outEven.subscribe(res => {
-          console.log("outeven")
-      })
-    }
+    socketService.callback.subscribe(res => {
+      console.log(res)
+    })
+  }
 
   ngOnInit(): void {
     var room_id = this.router.snapshot.paramMap.get("room_id")
@@ -30,7 +32,7 @@ export class RoomComponent implements OnInit {
 
   @HostListener("document:click", ["$event"])
   onMouseMove = (e: any) => {
-    console.log(e)
+    this.socketService.emitEvent({"x": e.x, "y": e.y})
   }
 
 }

@@ -8,6 +8,7 @@ import { Socket } from 'ngx-socket-io';
 export class WebSocketService extends Socket {
 
   outEven: EventEmitter<any> = new EventEmitter();
+  callback: EventEmitter<any> = new EventEmitter();
 
   constructor(private cookieService: CookieService) {
     super({
@@ -18,5 +19,15 @@ export class WebSocketService extends Socket {
         }
       }
     });
+
+    this.listen()
+  }
+
+  listen = () => {
+    this.ioSocket.on("event", (res: any) => this.callback.emit(res))
+  }
+
+  emitEvent = (payload = {}) => {
+    this.ioSocket.emit("event", payload)
   }
 }
