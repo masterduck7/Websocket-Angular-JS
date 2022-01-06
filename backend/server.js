@@ -11,10 +11,10 @@ io.on('connection', (socket) => {
 
     socket.join(nameRoom)
 
-    console.log(`User ${idHandShake} it's connected to room ${nameRoom}`);
+    console.log(`User ${idHandShake} -> ${nameRoom}`);
 
     socket.on('disconnect', () => {
-        console.log(`User ${socket.id} it's now disconnected to room ${nameRoom}`);
+        console.log(`User ${socket.id} disconnected -> ${nameRoom}`);
     });
 })
 

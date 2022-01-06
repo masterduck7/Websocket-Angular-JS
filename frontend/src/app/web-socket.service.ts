@@ -1,4 +1,3 @@
-import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
