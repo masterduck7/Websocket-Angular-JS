@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { WebSocketService } from '../web-socket.service';
 
 @Component({
   selector: 'app-room',
@@ -9,8 +10,17 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class RoomComponent implements OnInit {
   room_id!: string
+  messages = []
 
-  constructor(private router: ActivatedRoute, private cookieService: CookieService) { }
+  constructor(private router: ActivatedRoute, protected socketService: WebSocketService, private cookieService: CookieService) {
+    socketService.outEven.subscribe(res => {
+      console.log("outeven")
+    })
+
+    socketService.callback.subscribe(res => {
+      console.log(res)
+    })
+  }
 
   ngOnInit(): void {
     var room_id = this.router.snapshot.paramMap.get("room_id")
@@ -18,6 +28,11 @@ export class RoomComponent implements OnInit {
       this.room_id = room_id
       this.cookieService.set("room_id", this.room_id)
     }
+  }
+
+  @HostListener("document:click", ["$event"])
+  onMouseMove = (e: any) => {
+    this.socketService.emitEvent({"x": e.x, "y": e.y})
   }
 
 }

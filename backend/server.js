@@ -7,11 +7,20 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
     const idHandShake = socket.id;
+    const { nameRoom } = socket.handshake.query;
 
-    console.log(`Hi ${idHandShake} user`);
+    socket.join(nameRoom)
+
+    console.log(`User ${idHandShake} -> ${nameRoom}`);
+
+    socket.on("event", res => {
+        console.log(res)
+
+        socket.to(nameRoom).emit("event", res)
+    })
 
     socket.on('disconnect', () => {
-        console.log(`${socket.id} user is now disconnected!`);
+        console.log(`User ${socket.id} disconnected -> ${nameRoom}`);
     });
 })
 
